@@ -14,7 +14,7 @@ class Home extends React.Component {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.articles}>
         <Block flex>
-          <AttendanceBtn />
+          <AttendanceBtn screenName="Attendance" />
           <Card item={articles[0]} horizontal />
           <Block flex row>
             <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />

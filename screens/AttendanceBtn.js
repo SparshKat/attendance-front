@@ -12,7 +12,7 @@ function AttendanceButton({ screenName }) {
     return (
         <Block flex row center>
             <Button round size="small"
-              onPress={() => navigation.navigate('Attendance')}
+              onPress={() => navigation.navigate(screenName)}
             >
               Click to Mark Attendance
             </Button>

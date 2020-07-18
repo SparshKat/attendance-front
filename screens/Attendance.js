@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     ActivityIndicator,
     StyleSheet,
@@ -8,39 +8,142 @@ import {
     FlatList,
     KeyboardAvoidingView
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
+import { Block, Switch, Checkbox, Text, theme } from "galio-framework";
 
 import { Button, Icon, Input } from "../components";
 import { Images, argonTheme } from "../constants";
 
+import { useNavigation } from '@react-navigation/native';
+
 const { width, height } = Dimensions.get("screen");
+
+function TickMark(props) {
+    const navigation = useNavigation();
+
+    return (
+        <Button
+            size="small"
+            round
+            style={styles.createButton}
+            onPress={() => props.markAttendance(navigation)}>
+            Click here to mark the attendance
+                        
+        </Button>
+    );
+}
+
+const StudentEl = (props) => {
+    let colorStyle = props.attend ? "success" : "error";
+    const [attended, setAttendance] = useState(props.attend)
+    const [color, setColor] = useState(colorStyle);
+
+    useEffect(() => {
+        colorStyle = attended ? "success" : "error";
+        setColor(colorStyle);
+    })
+
+
+    const changeAttendance = () => {
+        setAttendance(!attended);
+        if (!attended) {
+            props.addStud(props.item.name);
+        } else {
+            props.removeStud(props.item.name);
+        }
+    }
+
+    return (
+
+        <Button color={color}
+            disabled={props.disable}
+            round
+            style={styles.createButton}
+            onPress={changeAttendance}
+        >
+            <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                {props.item.name}
+            </Text>
+        </Button>
+    );
+}
 
 class Register extends React.Component {
     state = {
         condition: "1",
+        // id: 5,
         totalStudents: [
             "Sparsh Katiyar", "Suarabh Patel"
         ],
         retrievedStudents: [
             {
-                "id": 1,
                 "name": "Sparsh Katiyar"
             },
             {
-                "id": 2,
                 "name": "Hardev Goyal"
             },
             {
-                "id": 3,
                 "name": "Suarabh Patel"
             },
             {
-                "id": 4,
                 "name": "Vibhas Wahi"
             }
         ],
-        markStudents: []
+        markStudents: [
+            {
+                "name": "Sparsh Katiyar"
+            },
+            {
+                "name": "Hardev Goyal"
+            },
+            {
+                "name": "Suarabh Patel"
+            },
+            {
+                "name": "Vibhas Wahi"
+            }
+        ]
     }
+
+    markAttendance = (navigation) => {
+        // const navigation = useNavigation();
+        this.setState({
+            condition : "1"
+        });
+        navigation.navigate("Pro");
+        console.log("marked");
+        console.log(this.state.markStudents);        
+    }
+
+
+    removeStud = (student) => {
+        const arr = [...this.state.markStudents];
+        // console.log(arr);
+        var data = arr.filter(function (obj) {
+            return obj.name !== student;
+        });
+        console.log(data);
+        this.setState({
+            markStudents: [...data]
+        })
+    }
+
+    addStud = (student) => {
+        console.log("Added" + student);
+        // let tempId = this.state.id + 1;
+        const arr = [...this.state.markStudents];
+        arr.push({
+            // "id": tempId,
+            "name": student
+        })
+
+        this.setState({
+            // id: tempId,
+            markStudents: [...arr]
+        })
+        // console.log(arr);
+        // console.log(this.state.markStudents);
+    }
+
     // const [isShowingCamera, setIsShowingCamera] = useState("1");
     askForPermission = async () => {
         const permissionResult = await Permissions.askAsync(Permissions.CAMERA)
@@ -50,6 +153,7 @@ class Register extends React.Component {
         }
         return true
     }
+
 
     justHere = async () => {
         // console.log("HELLLOOO");
@@ -122,6 +226,7 @@ class Register extends React.Component {
     }
 
     render() {
+
         let renderItem;
         if (this.state.condition === "1") {
             renderItem = (
@@ -141,39 +246,52 @@ class Register extends React.Component {
                     <ActivityIndicator size="large" />
                 </Block>
             )
-        } else if(this.state.condition === "3") {
+        } else if (this.state.condition === "3") {
             renderItem = (
                 <Block middle>
                     <FlatList containerStyle
-					data={this.state.retrievedStudents}
-					renderItem={({ item, index }) => {
-						if (this.state.totalStudents.find(el => el == item.name)) {
-							console.log("HEY THERE");
-							return (
-                                <Button color="success"
-                                    style={styles.createButton}
-                                    onPress={this.takeImage}>
-                                    <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                                        {item.name}
-                                    </Text>
-                                </Button>
-                            );
-						} else {
-							return (
-								<Button color="error"
-                                    style={styles.createButton}
-                                    onPress={this.takeImage}>
-                                    <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                                        {item.name}
-                                    </Text>
-                                </Button>
-							)
-						}
-					}}
-					keyExtractor={item => item.id}
-					ItemSeparatorComponent={this.renderSeparator}
-					ListHeaderComponent={this.renderHeader}
-				/>
+                        data={this.state.retrievedStudents}
+                        renderItem={({ item, index }) => {
+                            if (this.state.totalStudents.find(el => el == item.name)) {
+                                // console.log("HEY THERE");
+                                return (
+                                    <StudentEl
+                                        key={index}
+                                        item={item}
+                                        attend
+                                        disable={true}
+                                        addStud={this.addStud}
+                                        removeStud={this.removeStud}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <StudentEl
+                                        key={index}
+                                        item={item}
+                                        addStud={this.addStud}
+                                        removeStud={this.removeStud}
+                                    />
+                                )
+                            }
+                        }}
+                        keyExtractor={item => item.id}
+                        ItemSeparatorComponent={this.renderSeparator}
+                        ListHeaderComponent={this.renderHeader}
+                    />
+                    {/* <AttendanceBtn screenName="Pro" /> */}
+                    <TickMark 
+                        markAttendance={this.markAttendance}
+                    />
+                    {/* <Button
+                        // size="small"
+                        // round
+                        style={styles.createButton}
+                        onPress={this.markAttendance}
+                    >
+                        Click here to mark the attendance
+                        
+                    </Button> */}
                 </Block>
             );
         }
@@ -224,6 +342,8 @@ class Register extends React.Component {
                                     </Text>
                                 </Block>
                                 {renderItem}
+
+
                                 {/* <Block flex center>
                                     <KeyboardAvoidingView
                                         style={{ flex: 1 }}
