@@ -15,13 +15,13 @@ class Home extends React.Component {
         contentContainerStyle={styles.articles}>
         <Block flex>
           <AttendanceBtn screenName="Attendance" />
-          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal screenName="Home"/>
           <Block flex row>
-            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Card item={articles[2]} />
+            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} screenName="Home"/>
+            <Card item={articles[2]} screenName="Home"/>
           </Block>
-          <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full />
+          <Card item={articles[3]} horizontal screenName="Home"/>
+          <Card item={articles[4]} full screenName="Home"/>
         </Block>
       </ScrollView>
     )

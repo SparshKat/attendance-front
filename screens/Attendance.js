@@ -318,10 +318,11 @@ class Register extends React.Component {
                     <Block flex middle>
                         <Block style={styles.registerContainer}>
                             <Block flex={0.25} middle style={styles.socialConnect}>
-                                <Text color="#8898AA" size={12}>
-                                    Sign up with
+                                <Text center color="#8898AA" size={22}>
+                                    Click On Student Name with red to 
+                                    add it manually for attendance :)
                 </Text>
-                                <Block row style={{ marginTop: theme.SIZES.BASE }}>
+                                {/* <Block row style={{ marginTop: theme.SIZES.BASE }}>
                                     <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
                                         <Block row>
                                             <Icon
@@ -346,7 +347,7 @@ class Register extends React.Component {
                                             <Text style={styles.socialTextButtons}>GOOGLE</Text>
                                         </Block>
                                     </Button>
-                                </Block>
+                                </Block> */}
                             </Block>
                             <Block flex>
                                 <Block flex={0.17} middle>

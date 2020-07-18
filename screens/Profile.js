@@ -7,15 +7,39 @@ import {
   ImageBackground,
   Platform
 } from "react-native";
-import { Block, Text, theme } from "galio-framework";
+import { Accordion, Block, Text, theme } from "galio-framework";
 
-import { Button } from "../components";
+import { Card, Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
 
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
+
+const data = [
+  {
+    title: '[IT201] : Check Your Attendance',
+    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+    cta: 'View article', 
+    horizontal: true
+  },
+  {
+    title: '[IT202] : Check Your Attendance',
+    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+    cta: 'View article'
+  },
+  {
+    title: '[CO201] : Check Your Attendance',
+    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+    cta: 'View article' 
+  },
+  {
+    title: '[CO201] : Update on Google Classroom',
+    image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
+    cta: 'View article' 
+  },
+];
 
 class Profile extends React.Component {
   render() {
@@ -66,9 +90,9 @@ class Profile extends React.Component {
                         color="#525F7F"
                         style={{ marginBottom: 4 }}
                       >
-                        2K
+                        300
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Orders</Text>
+                      <Text size={12} color={argonTheme.COLORS.TEXT}>Total Classes</Text>
                     </Block>
                     <Block middle>
                       <Text
@@ -77,9 +101,9 @@ class Profile extends React.Component {
                         size={18}
                         style={{ marginBottom: 4 }}
                       >
-                        10
+                        230
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Photos</Text>
+                      <Text size={12} color={argonTheme.COLORS.TEXT}>Attended</Text>
                     </Block>
                     <Block middle>
                       <Text
@@ -88,19 +112,19 @@ class Profile extends React.Component {
                         size={18}
                         style={{ marginBottom: 4 }}
                       >
-                        89
+                        50
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Comments</Text>
+                      <Text size={12} color={argonTheme.COLORS.TEXT}>Not Attended</Text>
                     </Block>
                   </Block>
                 </Block>
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      Jessica Jones, 27
+                      Sparsh Katiyar
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                      San Francisco, USA
+                      DTU/2K17/IT/119
                     </Text>
                   </Block>
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
@@ -147,16 +171,19 @@ class Profile extends React.Component {
                     </Button>
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-                    <Block row space="between" style={{ flexWrap: "wrap" }}>
-                      {Images.Viewed.map((img, imgIndex) => (
-                        <Image
-                          source={{ uri: img }}
-                          key={`viewed-${img}`}
-                          resizeMode="cover"
-                          style={styles.thumb}
-                        />
-                      ))}
+                    <Card item={data[0]} horizontal screenName="Profile"/>
+                    <Card item={data[1]} horizontal screenName="Profile"/>
+                    <Card item={data[2]} horizontal screenName="Profile"/>
+                    {/* <Block flex row>
+                      <Card item={data[1]} style={{ marginRight: theme.SIZES.BASE }} />
+                      <Card item={data[2]} />
                     </Block>
+                    <Block flex row>
+                      <Card item={data[1]} style={{ marginRight: theme.SIZES.BASE }} />
+                      <Card item={data[2]} />
+                    </Block> */}
+                    {/* <Card item={data[3]} horizontal />
+                    <Card item={data[4]} full /> */}
                   </Block>
                 </Block>
               </Block>
