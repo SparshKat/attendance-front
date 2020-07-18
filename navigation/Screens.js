@@ -14,7 +14,7 @@ import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Attendance from "../screens/Attendance";
-import Completion from "../screens/Completion";
+// import Completion from "../screens/Completion";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 // drawer

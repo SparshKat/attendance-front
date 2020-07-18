@@ -10,10 +10,14 @@ import {
 } from "react-native";
 import { Block, Switch, Checkbox, Text, theme } from "galio-framework";
 
+import * as ImagePicker from 'expo-image-picker'
+import * as Permissions from 'expo-permissions'
+
 import { Button, Icon, Input } from "../components";
 import { Images, argonTheme } from "../constants";
 
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios'
 
 const { width, height } = Dimensions.get("screen");
 
@@ -72,40 +76,37 @@ class Register extends React.Component {
         condition: "1",
         // id: 5,
         totalStudents: [
-            "Sparsh Katiyar", "Suarabh Patel"
+            // "Sparsh Katiyar", "Suarabh Patel"
         ],
         retrievedStudents: [
-            {
-                "name": "Sparsh Katiyar"
-            },
-            {
-                "name": "Hardev Goyal"
-            },
-            {
-                "name": "Suarabh Patel"
-            },
-            {
-                "name": "Vibhas Wahi"
-            }
+            // {
+            //     "name": "Sparsh Katiyar"
+            // },
+            // {
+            //     "name": "Hardev Goyal"
+            // },
+            // {
+            //     "name": "Suarabh Patel"
+            // },
+            // {
+            //     "name": "Vibhas Wahi"
+            // }
         ],
         markStudents: [
-            {
-                "name": "Sparsh Katiyar"
-            },
-            {
-                "name": "Hardev Goyal"
-            },
-            {
-                "name": "Suarabh Patel"
-            },
-            {
-                "name": "Vibhas Wahi"
-            }
-        ]
+            
+        ],
+        obj:{}
     }
 
     markAttendance = (navigation) => {
-        // const navigation = useNavigation();
+        let tempObj = this.state.obj;
+        let markedOnes = this.state.markStudents;
+        tempObj.students = markedOnes;
+        axios.put('http://cce4fa941c27.in.ngrok.io/attendance/mark', tempObj)
+        .then(res => {
+            console.log("Successful");
+        })
+        .catch(err => console.log("Err" + err));
         this.setState({
             condition : "1"
         });
@@ -140,11 +141,8 @@ class Register extends React.Component {
             // id: tempId,
             markStudents: [...arr]
         })
-        // console.log(arr);
-        // console.log(this.state.markStudents);
     }
 
-    // const [isShowingCamera, setIsShowingCamera] = useState("1");
     askForPermission = async () => {
         const permissionResult = await Permissions.askAsync(Permissions.CAMERA)
         if (permissionResult.status !== 'granted') {
@@ -154,75 +152,86 @@ class Register extends React.Component {
         return true
     }
 
-
-    justHere = async () => {
-        // console.log("HELLLOOO");
-        setIsShowingCamera("1");
-        // fetch('http://0b0a76c4214a.ngrok.io/api/test')
-        // 	.then(res => console.log(res))
-        // 	.catch(err => console.log("Here :" + err))
-    }
-
     takeImage = async () => {
         // make sure that we have the permission
-        this.setState({
-            condition: "2"
-        })
-        setTimeout(() => {
-            this.setState({
-                condition: "3"
-            })
-        }, 1000);
-        // markAttendance(retrievedStudents, totalStudents);
+        // this.setState({
+        //     condition: "2"
+        // })
+        
+        // setTimeout(() => {
+        //     this.setState({
+        //         condition: "3"
+        //     })
+        // }, 1000);
         // setIsShowingCamera("2");
-        // const hasPermission = await this.askForPermission()
-        // if (!hasPermission) {
-        // 	return
-        // } else {
-        // 	// launch the camera with the following settings
-        // 	let image = await ImagePicker.launchCameraAsync({
-        // 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        // 		allowsEditing: true,
-        // 		aspect: [3, 3],
-        // 		quality: 0.3,
-        // 		base64: false,
-        // 	})
+        
+        const hasPermission = await this.askForPermission()
+        if (!hasPermission) {
+        	return
+        } else {
+        	// launch the camera with the following settings
+        	let image = await ImagePicker.launchCameraAsync({
+        		mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        		allowsEditing: true,
+        		aspect: [3, 3],
+        		quality: 0.3,
+        		base64: false,
+        	})
 
-        // 	// make sure a image was taken:
-        // 	if (!image.cancelled) {
-        // 		this.setState({
-        // 			condition: "2"
-        // 		})
-        // 		fetch('http://269f15da2405.in.ngrok.io/api/test', {
-        // 			method: 'POST',
-        // 			headers: {
-        // 				Accept: 'application/json',
-        // 				'Content-Type': 'image/jpg',
-        // 			},
-        // 			// send our base64 string as POST request
-        // 			// body: JSON.stringify({
-        // 			// 	imgsource: image.base64,
-        // 			// }),
-        // 			body: image
-        // 		})
-        // 			.then(res => {
-        // 				var newEl = JSON.parse(JSON.stringify(res))
-        // 				console.log(newEl);
-        // 				// console.log(newEl._bodyBlob._data);
-        // 				// console.log(newEl._bodyInit._data);
-        // 				// console.log();
-        // 				// console.log(JSON.parse(JSON.stringify(res.body)));
+        	// make sure a image was taken:
+        	if (!image.cancelled) {
+        		this.setState({
+        			condition: "2"
+        		})
+        		await fetch('http://5b61ca2f631f.in.ngrok.io/api/test', {
+        			method: 'POST',
+        			headers: {
+        				Accept: 'application/json',
+        				'Content-Type': 'image/jpg',
+        			},
+        			// send our base64 string as POST request
+        			// body: JSON.stringify({
+        			// 	imgsource: image.base64,
+        			// }),
+        			body: image
+        		})
+        			.then(res => {
+                        res.json().then((data) => {
+                            this.setState({
+                                obj : data
+                            })
+                            console.log('request succeeded with JSON response', data);
+                            this.setState({
+                                retrievedStudents : [...data.students],
+                                markStudents : [...data.students]
+                            });
+                            var code = data.classCode;
+                            axios.get(`http://cce4fa941c27.in.ngrok.io/admin/IT/${code}`)
+                            .then((res) => {
+                                console.log("All students" + res.data[0])
+                                this.setState({
+                                    totalStudents : [...res.data[0]]
+                                })
+                                this.setState({
+                                    condition: "3"
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            }) 
+                         })
+                        .catch(err => {
+                            console.log('Data failed', error);
+                        });
 
-        // 				this.setState({
-        // 					condition: "3"
-        // 				})
-        // 				console.log("Succes : " + res);
-        // 			})
-        // 			.catch(err => {
-        // 				console.log("error occured : " + err);
-        // 			})
-        // 	}
-        // }
+        				console.log("Succes : " + res);
+        			})
+        			.catch(err => {
+        				console.log("error occured : " + err);
+                    })
+                    
+        	}
+        }
     }
 
     render() {
@@ -254,6 +263,8 @@ class Register extends React.Component {
                         renderItem={({ item, index }) => {
                             if (this.state.totalStudents.find(el => el == item.name)) {
                                 // console.log("HEY THERE");
+                                // {this.state.markStudents.push(item)}
+                                // {console.log("Green ::: " + item)}
                                 return (
                                     <StudentEl
                                         key={index}
@@ -265,7 +276,9 @@ class Register extends React.Component {
                                     />
                                 );
                             } else {
+                                // {console.log("Red ::: " + item)}
                                 return (
+                                    
                                     <StudentEl
                                         key={index}
                                         item={item}
