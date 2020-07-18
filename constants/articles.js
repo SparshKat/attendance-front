@@ -1,23 +1,23 @@
 export default [
   {
-    title: 'Ice cream is made with carrageenan …',
-    image: 'https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
+    title: '[IT201] : Update on Google Classroom',
+    image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
     cta: 'View article', 
     horizontal: true
   },
   {
-    title: 'Is makeup one of your daily esse …',
-    image: 'https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80',
+    title: '[Resume Manager] : Applied for SAP Labs Succesfully',
+    image: 'https://cdn0.iconfinder.com/data/icons/find-a-job-and-interview-filled-outline/512/interview_business_job_offer_manager_employment_resume_contract_employee-512.png',
     cta: 'View article'
   },
   {
-    title: 'Coffee is more than just a drink: It’s …',
-    image: 'https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80',
+    title: '[IT201] : Attendance Updated Succesfully',
+    image: 'https://www.pinclipart.com/picdir/middle/101-1018502_attendance-initiation-svg-png-icon-free-download-icon.png',
     cta: 'View article' 
   },
   {
-    title: 'Fashion is a popular style, especially in …',
-    image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80',
+    title: '[CO201] : Update on Google Classroom',
+    image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
     cta: 'View article' 
   },
   {
