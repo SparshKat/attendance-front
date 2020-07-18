@@ -13,6 +13,7 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
+import Attendance from "../screens/Attendance"
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 // drawer
@@ -228,6 +229,7 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="Attendance" component={Attendance} />
     </Drawer.Navigator>
   );
 }

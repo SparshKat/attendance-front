@@ -5,7 +5,7 @@ import Button from '../components/Button'
 import { Card } from '../components';
 import articles from '../constants/articles';
 const { width } = Dimensions.get('screen');
-import AttendanceBtn from './Attendance'
+import AttendanceBtn from './AttendanceBtn'
 
 class Home extends React.Component {
   renderArticles = () => {
