@@ -59,6 +59,7 @@ const StudentEl = (props) => {
     return (
 
         <Button color={color}
+        key ={props.item.name}
             disabled={props.disable}
             round
             style={styles.createButton}
@@ -98,11 +99,23 @@ class Register extends React.Component {
         obj:{}
     }
 
+    componentWillUnmount(){
+        this.setState(
+            {
+                condition: "1",
+                totalStudents: [],
+                retrievedStudents: [],
+                markStudents: [],
+                obj:{}
+            }
+        )
+    }
+
     markAttendance = (navigation) => {
         let tempObj = this.state.obj;
         let markedOnes = this.state.markStudents;
         tempObj.students = markedOnes;
-        axios.put('http://cce4fa941c27.in.ngrok.io/attendance/mark', tempObj)
+        axios.put('http://4bdb66428a8e.in.ngrok.io/attendance/mark', tempObj)
         .then(res => {
             console.log("Successful");
         })
@@ -183,16 +196,12 @@ class Register extends React.Component {
         		this.setState({
         			condition: "2"
         		})
-        		await fetch('http://5b61ca2f631f.in.ngrok.io/api/test', {
+        		await fetch('http://8091b29286b0.in.ngrok.io/api/test', {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
         				'Content-Type': 'image/jpg',
         			},
-        			// send our base64 string as POST request
-        			// body: JSON.stringify({
-        			// 	imgsource: image.base64,
-        			// }),
         			body: image
         		})
         			.then(res => {
@@ -206,7 +215,7 @@ class Register extends React.Component {
                                 markStudents : [...data.students]
                             });
                             var code = data.classCode;
-                            axios.get(`http://cce4fa941c27.in.ngrok.io/admin/IT/${code}`)
+                            axios.get(`http://4bdb66428a8e.in.ngrok.io/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -259,15 +268,15 @@ class Register extends React.Component {
             renderItem = (
                 <Block middle>
                     <FlatList containerStyle
-                        data={this.state.retrievedStudents}
+                        data={this.state.totalStudents}
                         renderItem={({ item, index }) => {
-                            if (this.state.totalStudents.find(el => el == item.name)) {
+                            if (this.state.retrievedStudents.find(el => el.name == item.name)) {
                                 // console.log("HEY THERE");
                                 // {this.state.markStudents.push(item)}
                                 // {console.log("Green ::: " + item)}
                                 return (
                                     <StudentEl
-                                        key={index}
+                                        // key={item.name}
                                         item={item}
                                         attend
                                         disable={true}
@@ -280,7 +289,7 @@ class Register extends React.Component {
                                 return (
                                     
                                     <StudentEl
-                                        key={index}
+                                        // key={item.name}
                                         item={item}
                                         addStud={this.addStud}
                                         removeStud={this.removeStud}
