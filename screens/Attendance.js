@@ -8,12 +8,12 @@ import {
     FlatList,
     KeyboardAvoidingView
 } from "react-native";
-import { Block, Switch, Checkbox, Text, theme } from "galio-framework";
+import { Block, Switch, Checkbox, Text, theme,Input } from "galio-framework";
 
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
 
-import { Button, Icon, Input } from "../components";
+import { Button, Icon } from "../components";
 import { Images, argonTheme } from "../constants";
 
 import { useNavigation } from '@react-navigation/native';
@@ -59,7 +59,7 @@ const StudentEl = (props) => {
     return (
 
         <Button color={color}
-        key ={props.item.name}
+            key ={props.item.name}
             disabled={props.disable}
             round
             style={styles.createButton}
@@ -75,27 +75,11 @@ const StudentEl = (props) => {
 class Register extends React.Component {
     state = {
         condition: "1",
-        // id: 5,
-        totalStudents: [
-            // "Sparsh Katiyar", "Suarabh Patel"
-        ],
-        retrievedStudents: [
-            // {
-            //     "name": "Sparsh Katiyar"
-            // },
-            // {
-            //     "name": "Hardev Goyal"
-            // },
-            // {
-            //     "name": "Suarabh Patel"
-            // },
-            // {
-            //     "name": "Vibhas Wahi"
-            // }
-        ],
-        markStudents: [
-            
-        ],
+        week: "",
+        day : "",
+        totalStudents: [],
+        retrievedStudents: [],
+        markStudents: [],
         obj:{}
     }
 
@@ -114,7 +98,11 @@ class Register extends React.Component {
     markAttendance = (navigation) => {
         let tempObj = this.state.obj;
         let markedOnes = this.state.markStudents;
+        let tempDay = this.state.day;
+        let tempWeek = this.state.week;
         tempObj.students = markedOnes;
+        tempObj.week = tempWeek;
+        tempObj.day = tempDay;
         axios.put('http://4bdb66428a8e.in.ngrok.io/attendance/mark', tempObj)
         .then(res => {
             console.log("Successful");
@@ -256,7 +244,18 @@ class Register extends React.Component {
                             Take a photo
                         </Text>
                     </Button>
+                    <Block style={{ marginTop: theme.SIZES.BASE }}>
+                        <Block middle>
+                            <Input type="numeric" onChange={(e)=> this.setState({ week : e.nativeEvent.text})} placeholder="Input Week No." color="black" rounded />
+                        </Block>
+                        <Block middle>
+                            <Input type="numeric" onChange={(e)=> this.setState({ day : e.nativeEvent.text})} placeholder="Input Day No." color="black" rounded />
+                        </Block>
+                    </Block>
+                    {/* {console.log(this.state)} */}
+                    
                 </Block>
+                
             )
         } else if (this.state.condition === "2") {
             renderItem = (
@@ -276,7 +275,7 @@ class Register extends React.Component {
                                 // {console.log("Green ::: " + item)}
                                 return (
                                     <StudentEl
-                                        // key={item.name}
+                                        key={item.name}
                                         item={item}
                                         attend
                                         disable={true}
@@ -289,7 +288,7 @@ class Register extends React.Component {
                                 return (
                                     
                                     <StudentEl
-                                        // key={item.name}
+                                        key={item.name}
                                         item={item}
                                         addStud={this.addStud}
                                         removeStud={this.removeStud}
@@ -301,19 +300,9 @@ class Register extends React.Component {
                         ItemSeparatorComponent={this.renderSeparator}
                         ListHeaderComponent={this.renderHeader}
                     />
-                    {/* <AttendanceBtn screenName="Pro" /> */}
                     <TickMark 
                         markAttendance={this.markAttendance}
                     />
-                    {/* <Button
-                        // size="small"
-                        // round
-                        style={styles.createButton}
-                        onPress={this.markAttendance}
-                    >
-                        Click here to mark the attendance
-                        
-                    </Button> */}
                 </Block>
             );
         }
