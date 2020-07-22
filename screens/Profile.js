@@ -14,34 +14,90 @@ import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
 
 const { width, height } = Dimensions.get("screen");
+import axios from 'axios'
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-const data = [
-  {
-    title: '[IT201] : Check Your Attendance',
-    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
-    cta: 'View article', 
-    horizontal: true
-  },
-  {
-    title: '[IT202] : Check Your Attendance',
-    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
-    cta: 'View article'
-  },
-  {
-    title: '[CO201] : Check Your Attendance',
-    image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
-    cta: 'View article' 
-  },
-  {
-    title: '[CO201] : Update on Google Classroom',
-    image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
-    cta: 'View article' 
-  },
-];
+// const data = [
+//   {
+//     title: '[IT201] : Check Your Attendance',
+//     image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+//     cta: 'View article', 
+//     horizontal: true
+//   },
+//   {
+//     title: '[IT202] : Check Your Attendance',
+//     image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+//     cta: 'View article'
+//   },
+//   {
+//     title: '[CO201] : Check Your Attendance',
+//     image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+//     cta: 'View article' 
+//   },
+//   {
+//     title: '[CO201] : Update on Google Classroom',
+//     image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
+//     cta: 'View article' 
+//   },
+// ];
+
+
 
 class Profile extends React.Component {
+
+  state = {
+    data :[
+      {
+        title: '[IT201] : Check Your Attendance',
+        image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+        cta: 'View article', 
+        horizontal: true
+      },
+      {
+        title: '[IT202] : Check Your Attendance',
+        image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+        cta: 'View article'
+      },
+      {
+        title: '[CO201] : Check Your Attendance',
+        image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+        cta: 'View article' 
+      },
+      {
+        title: '[CO201] : Update on Google Classroom',
+        image: 'https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/google-classroom.jpg',
+        cta: 'View article' 
+      }
+    ]
+  }
+
+  componentDidMount(){
+    let arr = [];
+    axios.get('http://110e687e3cb8.in.ngrok.io/student/attendance/5f14964ed80b5d45fe150134')
+    .then(res => {
+      // console.log(res.data)
+      res.data.forEach(obj => {
+        console.log(obj);
+        arr.push({
+          "title" : `[${obj.subject}] : ${obj.attendanceNo} classes attended`,
+          "image": 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
+          "cta": 'Tap to know more', 
+          "horizontal": true
+        });
+      })
+      // console.log("ARR IS " + arr);
+      this.setState({
+        data : [...arr]
+      })
+
+    })
+    .catch(err => {
+      console.log("ERROR OCCURED : " + err);
+    })
+    console.log("STate is : " + this.state.data);
+  }
+
   render() {
     return (
       <Block flex style={styles.profile}>
@@ -136,8 +192,7 @@ class Profile extends React.Component {
                       color="#525F7F"
                       style={{ textAlign: "center" }}
                     >
-                      An artist of considerable range, Jessica name taken by
-                      Melbourne …
+                      My Name is Sparsh Katiyar and I'm a student of IT of DTU :)
                     </Text>
                     <Button
                       color="transparent"
@@ -171,9 +226,10 @@ class Profile extends React.Component {
                     </Button>
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-                    <Card item={data[0]} horizontal screenName="Profile"/>
-                    <Card item={data[1]} horizontal screenName="Profile"/>
-                    <Card item={data[2]} horizontal screenName="Profile"/>
+                    {console.log("This is just before sending cards : " + this.state.data)}
+                    <Card item={this.state.data[0]} horizontal screenName="Profile"/>
+                    <Card item={this.state.data[1]} horizontal screenName="Profile"/>
+                    <Card item={this.state.data[2]} horizontal screenName="Profile"/>
                     {/* <Block flex row>
                       <Card item={data[1]} style={{ marginRight: theme.SIZES.BASE }} />
                       <Card item={data[2]} />
