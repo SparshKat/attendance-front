@@ -49,18 +49,18 @@ class Profile extends React.Component {
   state = {
     data :[
       {
-        title: '[IT201] : Check Your Attendance',
+        title: '[IT201] : 0 attended',
         image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
         cta: 'View article', 
         horizontal: true
       },
       {
-        title: '[IT202] : Check Your Attendance',
+        title: '[IT202] : 0 attended',
         image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
         cta: 'View article'
       },
       {
-        title: '[CO201] : Check Your Attendance',
+        title: '[CO201] : 0 attended',
         image: 'https://cdn2.iconfinder.com/data/icons/minimal-book/256/minimal_book_4-128.png',
         cta: 'View article' 
       },
@@ -74,7 +74,7 @@ class Profile extends React.Component {
 
   componentDidMount(){
     let arr = [];
-    axios.get('http://110e687e3cb8.in.ngrok.io/student/attendance/5f14964ed80b5d45fe150134')
+    axios.get('http://06e9d7ee2079.in.ngrok.io/student/attendance/5f14964ed80b5d45fe150134')
     .then(res => {
       // console.log(res.data)
       res.data.forEach(obj => {

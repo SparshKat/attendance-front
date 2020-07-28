@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get("screen");
 
 class Register extends React.Component {
   render() {
+    const { navigation } = this.props;
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -67,7 +68,7 @@ class Register extends React.Component {
                     behavior="padding"
                     enabled
                   >
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                    {/* <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
                         placeholder="Name"
@@ -81,7 +82,7 @@ class Register extends React.Component {
                           />
                         }
                       />
-                    </Block>
+                    </Block> */}
                     <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
@@ -142,9 +143,18 @@ class Register extends React.Component {
                       </Button>
                     </Block>
                     <Block middle>
-                      <Button color="primary" style={styles.createButton}>
+                      <Button color="primary" style={styles.createButton}
+                      onPress={() => navigation.navigate("Home")}
+                      >
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          CREATE ACCOUNT
+                          Sign In As Teacher
+                        </Text>
+                      </Button>
+                      <Button color="primary" style={styles.createButton}
+                      onPress={() => navigation.navigate("Home")}
+                      >
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          Sign In As Student
                         </Text>
                       </Button>
                     </Block>

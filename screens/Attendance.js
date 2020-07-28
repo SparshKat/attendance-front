@@ -103,7 +103,7 @@ class Register extends React.Component {
         tempObj.students = markedOnes;
         tempObj.week = tempWeek;
         tempObj.day = tempDay;
-        axios.put('http://4bdb66428a8e.in.ngrok.io/attendance/mark', tempObj)
+        axios.put('http://06e9d7ee2079.in.ngrok.io/attendance/mark', tempObj)
         .then(res => {
             console.log("Successful");
         })
@@ -184,7 +184,7 @@ class Register extends React.Component {
         		this.setState({
         			condition: "2"
         		})
-        		await fetch('http://8091b29286b0.in.ngrok.io/api/test', {
+        		await fetch('http://cdb37dc4448c.in.ngrok.io/api/test', {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
@@ -203,7 +203,7 @@ class Register extends React.Component {
                                 markStudents : [...data.students]
                             });
                             var code = data.classCode;
-                            axios.get(`http://4bdb66428a8e.in.ngrok.io/admin/IT/${code}`)
+                            axios.get(`http://06e9d7ee2079.in.ngrok.io/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -237,13 +237,23 @@ class Register extends React.Component {
         if (this.state.condition === "1") {
             renderItem = (
                 <Block middle>
+                    <Block>
                     <Button color="primary"
                         style={styles.createButton}
                         onPress={this.takeImage}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                            Take a photo
+                            Take A Photo
                         </Text>
                     </Button>
+                    <Button color="primary"
+                        style={styles.createButton}
+                        onPress={this.takeImage}>
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                            Record A Video
+                        </Text>
+                    </Button>
+                    </Block>
+                    
                     <Block style={{ marginTop: theme.SIZES.BASE }}>
                         <Block middle>
                             <Input type="numeric" onChange={(e)=> this.setState({ week : e.nativeEvent.text})} placeholder="Input Week No." color="black" rounded />
