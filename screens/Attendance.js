@@ -231,6 +231,84 @@ class Register extends React.Component {
         }
     }
 
+    takeVideo = async () => {
+        // make sure that we have the permission
+        // this.setState({
+        //     condition: "2"
+        // })
+        
+        // setTimeout(() => {
+        //     this.setState({
+        //         condition: "3"
+        //     })
+        // }, 1000);
+        // setIsShowingCamera("2");
+        
+        const hasPermission = await this.askForPermission()
+        if (!hasPermission) {
+        	return
+        } else {
+        	// launch the camera with the following settings
+        	let image = await ImagePicker.launchCameraAsync({
+        		mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        		allowsEditing: true,
+        		aspect: [3, 3],
+        		quality: 0.3,
+        		base64: false,
+        	})
+
+        	// make sure a image was taken:
+        	if (!image.cancelled) {
+        		this.setState({
+        			condition: "2"
+        		})
+        		await fetch('http://cdb37dc4448c.in.ngrok.io/api/video', {
+        			method: 'POST',
+        			headers: {
+        				Accept: 'application/json',
+        				'Content-Type': 'image/jpg',
+        			},
+        			body: image
+        		})
+        			.then(res => {
+                        res.json().then((data) => {
+                            this.setState({
+                                obj : data
+                            })
+                            console.log('request succeeded with JSON response', data);
+                            this.setState({
+                                retrievedStudents : [...data.students],
+                                markStudents : [...data.students]
+                            });
+                            var code = data.classCode;
+                            axios.get(`http://06e9d7ee2079.in.ngrok.io/admin/IT/${code}`)
+                            .then((res) => {
+                                console.log("All students" + res.data[0])
+                                this.setState({
+                                    totalStudents : [...res.data[0]]
+                                })
+                                this.setState({
+                                    condition: "3"
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            }) 
+                         })
+                        .catch(err => {
+                            console.log('Data failed', error);
+                        });
+
+        				console.log("Succes : " + res);
+        			})
+        			.catch(err => {
+        				console.log("error occured : " + err);
+                    })
+                    
+        	}
+        }
+    }
+
     render() {
 
         let renderItem;
@@ -247,7 +325,7 @@ class Register extends React.Component {
                     </Button>
                     <Button color="primary"
                         style={styles.createButton}
-                        onPress={this.takeImage}>
+                        onPress={this.takeVideo}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                             Record A Video
                         </Text>
