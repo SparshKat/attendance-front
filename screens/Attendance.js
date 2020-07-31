@@ -77,6 +77,7 @@ class Register extends React.Component {
         condition: "1",
         week: "",
         day : "",
+        classCode : "",
         totalStudents: [],
         retrievedStudents: [],
         markStudents: [],
@@ -103,7 +104,7 @@ class Register extends React.Component {
         tempObj.students = markedOnes;
         tempObj.week = tempWeek;
         tempObj.day = tempDay;
-        axios.put('http://06e9d7ee2079.in.ngrok.io/attendance/mark', tempObj)
+        axios.put('http://e013ce9f3b7f.in.ngrok.io/attendance/mark', tempObj)
         .then(res => {
             console.log("Successful");
         })
@@ -184,7 +185,7 @@ class Register extends React.Component {
         		this.setState({
         			condition: "2"
         		})
-        		await fetch('http://cdb37dc4448c.in.ngrok.io/api/test', {
+        		await fetch('http://631697aa3039.in.ngrok.io/api/test', {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
@@ -203,7 +204,7 @@ class Register extends React.Component {
                                 markStudents : [...data.students]
                             });
                             var code = data.classCode;
-                            axios.get(`http://06e9d7ee2079.in.ngrok.io/admin/IT/${code}`)
+                            axios.get(`http://e013ce9f3b7f.in.ngrok.io/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -266,7 +267,7 @@ class Register extends React.Component {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
-        				'Content-Type': 'image/jpg',
+        				'Content-Type': 'multipart/form-data',
         			},
         			body: image
         		})
@@ -280,8 +281,8 @@ class Register extends React.Component {
                                 retrievedStudents : [...data.students],
                                 markStudents : [...data.students]
                             });
-                            var code = data.classCode;
-                            axios.get(`http://06e9d7ee2079.in.ngrok.io/admin/IT/${code}`)
+                            var code = this.state.classCode;
+                            axios.get(`http://e013ce9f3b7f.in.ngrok.io/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -334,11 +335,15 @@ class Register extends React.Component {
                     
                     <Block style={{ marginTop: theme.SIZES.BASE }}>
                         <Block middle>
+                            <Input type="default" onChange={(e)=> this.setState({ classCode : e.nativeEvent.text})} placeholder="Input Class Code" color="black" rounded />
+                        </Block>
+                        <Block middle>
                             <Input type="numeric" onChange={(e)=> this.setState({ week : e.nativeEvent.text})} placeholder="Input Week No." color="black" rounded />
                         </Block>
                         <Block middle>
                             <Input type="numeric" onChange={(e)=> this.setState({ day : e.nativeEvent.text})} placeholder="Input Day No." color="black" rounded />
                         </Block>
+                        
                     </Block>
                     {/* {console.log(this.state)} */}
                     

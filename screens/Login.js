@@ -123,14 +123,15 @@ class Register extends React.Component {
                         </Text>
                       </Block>
                     </Block>
-                    <Block row width={width * 0.75}>
-                      <Checkbox
+                    <Block middle row width={width * 0.75}>
+                      {/* <Checkbox
                         checkboxStyle={{
                           borderWidth: 3
                         }}
                         color={argonTheme.COLORS.PRIMARY}
                         label="I agree with the"
-                      />
+                      /> */}
+                      {/* <a href=""></a> */}
                       <Button
                         style={{ width: 100 }}
                         color="transparent"
@@ -138,8 +139,9 @@ class Register extends React.Component {
                           color: argonTheme.COLORS.PRIMARY,
                           fontSize: 14
                         }}
+                        onPress={() => navigation.navigate("Account")}
                       >
-                        Privacy Policy
+                        Click to Sign Up
                       </Button>
                     </Block>
                     <Block middle>
