@@ -59,7 +59,7 @@ const StudentEl = (props) => {
     return (
 
         <Button color={color}
-            key ={props.item.name}
+            // key ={props.item.name}
             disabled={props.disable}
             round
             style={styles.createButton}
@@ -104,7 +104,7 @@ class Register extends React.Component {
         tempObj.students = markedOnes;
         tempObj.week = tempWeek;
         tempObj.day = tempDay;
-        axios.put('http://e013ce9f3b7f.in.ngrok.io/attendance/mark', tempObj)
+        axios.put('https://attendance-heroku.herokuapp.com/attendance/mark', tempObj)
         .then(res => {
             console.log("Successful");
         })
@@ -185,7 +185,7 @@ class Register extends React.Component {
         		this.setState({
         			condition: "2"
         		})
-        		await fetch('http://631697aa3039.in.ngrok.io/api/test', {
+        		await fetch('http://nulls.in:5000/api/test', {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
@@ -204,7 +204,7 @@ class Register extends React.Component {
                                 markStudents : [...data.students]
                             });
                             var code = data.classCode;
-                            axios.get(`http://e013ce9f3b7f.in.ngrok.io/admin/IT/${code}`)
+                            axios.get(`https://attendance-heroku.herokuapp.com/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -263,7 +263,7 @@ class Register extends React.Component {
         		this.setState({
         			condition: "2"
         		})
-        		await fetch('http://cdb37dc4448c.in.ngrok.io/api/video', {
+        		await fetch('http://nulls.in:5000/api/video', {
         			method: 'POST',
         			headers: {
         				Accept: 'application/json',
@@ -282,7 +282,7 @@ class Register extends React.Component {
                                 markStudents : [...data.students]
                             });
                             var code = this.state.classCode;
-                            axios.get(`http://e013ce9f3b7f.in.ngrok.io/admin/IT/${code}`)
+                            axios.get(`https://attendance-heroku.herokuapp.com/admin/IT/${code}`)
                             .then((res) => {
                                 console.log("All students" + res.data[0])
                                 this.setState({
@@ -368,7 +368,7 @@ class Register extends React.Component {
                                 // {console.log("Green ::: " + item)}
                                 return (
                                     <StudentEl
-                                        key={item.name}
+                                        key={`${item.name}_${index}`}
                                         item={item}
                                         attend
                                         disable={true}
@@ -381,7 +381,7 @@ class Register extends React.Component {
                                 return (
                                     
                                     <StudentEl
-                                        key={item.name}
+                                        key={`${item.name}_${index}`}
                                         item={item}
                                         addStud={this.addStud}
                                         removeStud={this.removeStud}
