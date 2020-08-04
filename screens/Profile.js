@@ -74,7 +74,7 @@ class Profile extends React.Component {
 
   componentDidMount(){
     let arr = [];
-    axios.get('http://06e9d7ee2079.in.ngrok.io/student/attendance/5f14964ed80b5d45fe150134')
+    axios.get('https://attendance-heroku.herokuapp.com/student/attendance/5f14964ed80b5d45fe150134')
     .then(res => {
       // console.log(res.data)
       res.data.forEach(obj => {
